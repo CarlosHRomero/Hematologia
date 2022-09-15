@@ -1,23 +1,40 @@
+import React, { Component }  from "react";
+import { useState } from 'react';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Layout } from "./components/Layout";
+import { AppProvider } from "./context/AppContext";
+//import {Home} from './components/Home';
+import {Login} from './components/login';
+import { ListadoPacientes } from "./components/ListadoPacientes";
+import {PacientePage} from "./components/Paciente";
+import {ConsultaCreate} from "./components/ConsultaCreate.js"
+
+import { Home } from "./components/home";
+
+
 import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  const [user, setUser] = useState(0);
+  //const SERVER_URL = process.env.REACT_APP_SERVER_URL;
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <AppProvider >
+        <Layout>
+          <BrowserRouter basename="/hematologia">
+          <Routes>
+            <Route exact path="/" element={<Home />}></Route>
+            <Route exact path="/login" element={<Login />}></Route>
+            <Route exact path="/pacientes" element={<ListadoPacientes />} />
+            <Route path="/paciente/:hcnumIng" element={<PacientePage />} />
+            <Route path="/consultas/create/:hcnumIng" element={<ConsultaCreate />} />
+           
+          </Routes>
+          </BrowserRouter>
+        </Layout>
+      </AppProvider>
+
     </div>
   );
 }

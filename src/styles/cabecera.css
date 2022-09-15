@@ -1,0 +1,9 @@
+.cabecera {
+    /*font-size:0.8em;*/
+    background-color: rgb(16,92,128);
+    color: white;
+    margin-bottom: 0.8em;
+    padding: 0.5em;
+    border-radius: 4px;
+    text-align: left;
+}

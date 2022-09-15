@@ -1,7 +1,20 @@
+html {
+  font-size: 14px;
+  font-family: Arial;
+}
+
 .App {
   text-align: center;
 }
 
+.text-left{
+  text-align: left;
+}
+
+.text-right{
+  text-align: right;
+
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
