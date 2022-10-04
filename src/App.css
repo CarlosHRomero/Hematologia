@@ -5,6 +5,7 @@ html {
 
 .App {
   text-align: center;
+  background-color: rgb(244, 244, 255);
 }
 
 .text-left{
@@ -48,4 +49,37 @@ html {
   to {
     transform: rotate(360deg);
   }
+}
+
+.yellow{
+  background-color: bisque;
+}
+
+.formCons{
+  background-color: lightgrey;
+}
+
+.error{
+  color: red;
+}
+
+
+.tab-list {
+  text-align: left;
+  color: navy;
+  border-bottom: 1px solid #ccc;
+  padding-left: 0;
+}
+
+.tab-list-item {
+  display: inline-block;
+  list-style: none;
+  margin-bottom: -1px;
+  padding: 0.5rem 0.75rem;
+}
+
+.tab-list-active {
+  background-color: white;
+  border: solid #ccc;
+  border-width: 1px 1px 0 1px;
 }

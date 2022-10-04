@@ -5,8 +5,8 @@ import '../styles/site.css'
 
 const Pacientes = ({ listaPacientes }) => {
 
-  /*console.log(listaPacientes);
-  console.log(typeof (listaPacientes));*/
+  /*//console.log(listaPacientes);
+  //console.log(typeof (listaPacientes));*/
 
   /*
   listaPacientes.map((paciente) => (

@@ -10,7 +10,10 @@
     border-color: gray;
     padding: 0.7rem;
     border-width: 1px;
+    background-color: rgb(215, 225, 212);
 }
+
+
 
 label{
     color: navy;

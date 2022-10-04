@@ -8,12 +8,15 @@ import {Login} from './components/login';
 import { ListadoPacientes } from "./components/ListadoPacientes";
 import {PacientePage} from "./components/Paciente";
 import {ConsultaCreate} from "./components/ConsultaCreate.js"
+import { ConsultaDetail} from "./components/ConsultaDetail";
+import { ConsultaEdit} from "./components/ConsultaEdit";
 
 import { Home } from "./components/home";
 
 
 import logo from './logo.svg';
 import './App.css';
+import { Button } from "react-bootstrap";
 
 function App() {
   const [user, setUser] = useState(0);
@@ -29,7 +32,8 @@ function App() {
             <Route exact path="/pacientes" element={<ListadoPacientes />} />
             <Route path="/paciente/:hcnumIng" element={<PacientePage />} />
             <Route path="/consultas/create/:hcnumIng" element={<ConsultaCreate />} />
-           
+            <Route path="/consultas/details/:consId" element={<ConsultaDetail />} />
+            <Route path="/consultas/edit/:consId" element={<ConsultaEdit />} />
           </Routes>
           </BrowserRouter>
         </Layout>

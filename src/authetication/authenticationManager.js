@@ -23,7 +23,7 @@ class AuthenticationManager {
             headers: _headers,
             body: JSON.stringify(payload),
         };
-        console.log(url);
+        //console.log(url);
         let result = await fetch(url, requestOptions);
         if (result.status === 200) {
             return result;
@@ -37,12 +37,12 @@ class AuthenticationManager {
         return result;
     }
     async login(userName, password) {
-        console.log('username: '+userName)
+        //console.log('username: '+userName)
         const result = await this.postData(this._baseUrl + "login", {
             Username: userName,
             Password: password,
         });
-        console.log('resultado: ' +result);
+        //console.log('resultado: ' +result);
         if (result?.status === 200) {
             const data = await result.json();
             if (data) {
@@ -115,18 +115,18 @@ class AuthenticationManager {
             // this._user = JwtDecode(token);
             this._user = 'xxx';
         } catch (error) {
-            console.log(error);
+            //console.log(error);
             //alert(error.message);
         }
     }
 
     updateToken(token) {
-        console.log(token)
+        //console.log(token)
 
         this._token = token;
         this._processToken(token);
         if (token) {
-            console.log('almaceno token');
+            //console.log('almaceno token');
             //alert(token);
             const jtoken = JSON.stringify(token)
             localStorage.setItem(tokenKey, jtoken);
@@ -143,7 +143,7 @@ class AuthenticationManager {
             return "";
         }
         const jtoken = JSON.parse(result);
-        console.log('en get access token jtoken = ' + jtoken);
+        //console.log('en get access token jtoken = ' + jtoken);
         return jtoken;
     }
 

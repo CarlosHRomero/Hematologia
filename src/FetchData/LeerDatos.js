@@ -1,7 +1,7 @@
 import {FetchData} from './FetchData';
 
 async function leerConsultas(hcNuming, setConsutas, setCargando) {
-    console.log(hcNuming);
+    //console.log(hcNuming);
     const data = await FetchData("Consultas/ConsultasPorHcnuming/" + hcNuming);
     
     console.log(data);

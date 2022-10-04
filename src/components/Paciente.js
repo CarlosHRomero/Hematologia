@@ -47,10 +47,10 @@ const PacientePage = () => {
 }
 
 async function leerPaciente(hcNuming, setPaciente, setCargando) {
-    console.log(hcNuming);
+    //console.log(hcNuming);
     const data = await FetchData("pacientes/PacientePorhcNumIng/" + hcNuming);
     
-    console.log(data);
+    //console.log(data);
     setPaciente(data);
     setCargando(false);
   }

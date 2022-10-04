@@ -15,7 +15,7 @@ const Cabecera = () => {
           <div>
             <Row className="cabecera">
               <Col>
-                <label>Pacientes Hematologia</label>
+                <h4>Pacientes Hematologia</h4>
               </Col>
               <Col  xs={2}>
               <div className="d-grid gap-2">

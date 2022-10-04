@@ -41,7 +41,7 @@ const ListadoConsultas = ({ hcNuming }) => {
                             <td className="text-center">{consulta.consPorc}</td>
                             <td></td>
                             <td>
-                            <Link to={'/consultas/'+consulta.consId}>
+                            <Link to={'/consultas/details/'+consulta.consId}>
                                 {consulta.consTratamiento}
                                 </Link>
                             </td>

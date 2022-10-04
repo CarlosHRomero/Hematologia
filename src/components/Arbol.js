@@ -1,7 +1,8 @@
 import React from "react";
 import { useState, useEffect, useContext  } from 'react';
 import {TreeView, TreeItem} from '@mui/lab';
-import {leerConsultas} from '../FetchData/LeerDatos';
+import {FetchData} from '../FetchData/FetchData';
+//import {leerConsultas} from '../FetchData/LeerDatos';
 //import ExpandMoreIcon from '@material-ui/icons/ExpandMoreIcon';
 
 import { ExpandMore, ChevronRight } from '@mui/icons-material';
@@ -43,6 +44,15 @@ const Arbol = ({ hcNuming }) => {
     )
 }
 
+
+async function leerConsultas(hcNuming, setConsutas, setCargando) {
+    //console.log(hcNuming);
+    const data = await FetchData("Consultas/ConsultasPorHcnuming/" + hcNuming);
+    
+    console.log(data);
+    setConsutas(data );
+    setCargando(false);
+  }
 
 
 

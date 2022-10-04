@@ -15,7 +15,7 @@ const Login = () => {
      }
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log('userName: ' + userName);
+        //console.log('userName: ' + userName);
         const token = await authManager.login(userName, password);
         if(token)
             setToHome(true);
@@ -44,7 +44,7 @@ const Login = () => {
                     <label className="control-label">
                         Contraseña
                     </label>
-                    <input type='text' className='form-control'
+                    <input  className='form-control'
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                         type="password"

@@ -29,7 +29,7 @@ async function leerPacientes(setLista, setCargando) {
 
   const data = await FetchData("pacientes/ListadoPacientes");
 
-  console.log  (data);
+  //console.log  (data);
 
   //const lista=data.map(x=> new Date(x.consConsultaF));
 

@@ -17,7 +17,7 @@ const DatosPaciente = ({paciente}) => {
       );
     if(!!paciente)
     {
-        console.log(TTR);
+        //console.log(TTR);
     return <div className="text-left mt-2">
         <h5>DatosPaciente</h5>        
         <div className="grupo">
@@ -38,8 +38,9 @@ const DatosPaciente = ({paciente}) => {
             <Col  md={2}>
                 <Form.Group className="mb-3">
                     <Form.Label>Obra Social</Form.Label>
-                    <div className="form-control" >{paciente.obraSocial
-} </div>
+                    <div className="form-control" >
+                        {paciente.obraSocial}
+                     </div>
                 </Form.Group>
             </Col>
             <Col md={2}>
@@ -96,28 +97,28 @@ function CalcularEdad(fnac){
 
 
 async function leerInrPromedio(hcNuming, setInrPromedio) {
-    console.log(hcNuming);
+    //console.log(hcNuming);
     const data = await FetchData("pacientes/InrPromedio/" + hcNuming);
     
-    console.log(data);
+    //console.log(data);
     setInrPromedio(data);
 
   }
 
   async function leerInrVarianza(hcNuming, setInrVarianza) {
-    console.log(hcNuming);
+    //console.log(hcNuming);
     const data = await FetchData("pacientes/InrVarianza/" + hcNuming);
     
-    console.log(data);
+    //console.log(data);
     setInrVarianza(data);
 
   }
 
   async function leerTTR(hcNuming, setTTR) {
-    console.log(hcNuming);
+    //console.log(hcNuming);
     const data = await FetchData("pacientes/TTR/" + hcNuming);
     
-    console.log(data);
+    //console.log(data);
     setTTR(data);
 
   }

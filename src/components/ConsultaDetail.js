@@ -6,14 +6,14 @@ import { useParams } from "react-router-dom";
 import {ConsultaForm} from './ConsultaForm'
 import { Row, Col } from 'react-bootstrap';
 import {Arbol} from "./Arbol";
-function ConsultaCreate() {
+import {Toolbar} from "./Toolbar";
+
+function ConsultaDetail(){
     const params = useParams();
     const [paciente, setPaciente] = useState();
     const [cargando, setCargando] = useState(false);
-    const [consulta, setConsulta] = useState();
     useEffect(() => {
-        //alert('hola');
-        leerPaciente(params.hcnumIng, setPaciente, setCargando);
+        leerPaciente(params.consId, setPaciente, setCargando);
     }, []
     );
     if (paciente) {
@@ -23,9 +23,12 @@ function ConsultaCreate() {
                 <Arbol hcNuming={params.hcnumIng}></Arbol>
             </Col>
             <Col>
+                <Toolbar linkedit={'/consultas/edit/'+params.consId} />
                 <DatosPaciente paciente={paciente}></DatosPaciente>
-                <h5 className='text-left m-2'>Nueva consulta</h5>
-                <ConsultaForm hcnuming={params.hcnumIng} modo = 'create'></ConsultaForm>
+                <h5 className='text-left m-2'></h5>
+                <fieldset disabled="disabled">
+                <ConsultaForm consId={params.consId} modo = 'detail'></ConsultaForm>
+                </fieldset>
             </Col>
             </Row>
         )
@@ -33,15 +36,17 @@ function ConsultaCreate() {
 }
 
 
-async function leerPaciente(hcNuming, setPaciente, setCargando) {
-    //console.log(hcNuming);
-    const data = await FetchData("pacientes/PacientePorhcNumIng/" + hcNuming);
-
-    //console.log(data);
-    setPaciente(data);
+async function leerPaciente(consId, setPaciente, setCargando) {
+    console.log(consId);
+    const datac = await FetchData("consultas/" + consId);
+    console.log(datac);
+    console.log(datac.hcnumIng);
+    const datap = await FetchData("pacientes/PacientePorhcNumIng/" + datac.hcnumIng);
+    
+    setPaciente(datap);
     setCargando(false);
 }
 
 
 
-export { ConsultaCreate }
+export { ConsultaDetail }
