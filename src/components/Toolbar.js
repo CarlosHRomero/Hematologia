@@ -10,13 +10,13 @@ import Col from "react-bootstrap/Col";
 import { Link } from 'react-router-dom';
 import { authManager } from '../authetication/authenticationManager';
 import { useNavigate } from 'react-router-dom';
-const Toolbar = (linkedit) => {
+const Toolbar = (modo, linkedit) => {
     const navigate = useNavigate();
     return (
         <AppContext.Consumer>
             {(user) => {
                 return (
-                    <div>
+                    <div className="mt-2">
                         <Row className="cabecera justify-content-md-end">
                             <Col md={1}>
                                 <Link to={'/pacientes/'}>
@@ -28,17 +28,18 @@ const Toolbar = (linkedit) => {
                                 </Link>
                             </Col>
                             <Col xs={1}>
-                                    <div className="d-grid gap-2">
-                                        <Button variant="outline-light" size="sm" 
-                                        onClick = {()=>{
+                                <div className="d-grid gap-2">
+                                    <Button variant="outline-light" size="sm"
+                                        onClick={() => {
                                             authManager.logout()
                                             alert('');
-                                            navigate('/login/')}
+                                            navigate('/login/')
                                         }
-                                        >
-                                            <ImExit />
-                                        </Button>
-                                    </div>
+                                        }
+                                    >
+                                        <ImExit />
+                                    </Button>
+                                </div>
                             </Col>
                             {/*                             <Col xs={1}>
                                 <div className="d-grid gap-2">
@@ -54,6 +55,8 @@ const Toolbar = (linkedit) => {
                                 </div>
                             </Col>
                             <Col xs={1}>
+                                {
+                                modo=='detail'?
                                 <Link to={linkedit.linkedit}>
                                     <div className="d-grid gap-2">
                                         <Button variant="outline-light" size="sm">
@@ -61,6 +64,8 @@ const Toolbar = (linkedit) => {
                                         </Button>
                                     </div>
                                 </Link>
+                                :null
+            }
                             </Col>
                             <Col xs={1}>
                                 <div className="d-grid gap-2">

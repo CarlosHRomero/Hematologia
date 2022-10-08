@@ -20,10 +20,10 @@ function ConsultaEdit(){
         return (
             <Row>
             <Col md={3}>
-                <Arbol hcNuming={params.hcnumIng}></Arbol>
+                <Arbol hcNuming={paciente.hcnumIng}></Arbol>
             </Col>
             <Col>
-                {/* <Toolbar /> */}
+                <Toolbar modo='edit'/>
                 <DatosPaciente paciente={paciente}></DatosPaciente>
                 <h5 className='text-left m-2'></h5>
                 <ConsultaForm consId={params.consId} modo = 'edit'></ConsultaForm>

@@ -11,7 +11,12 @@ async function PostData(url, body) {
         },
         body: JSON.stringify(body)
     };
+    console.log('token', token);
+    if (token) {
+        requestOptions.headers["Authorization"] = "Bearer " + token;
+    }
     console.log('requestOptions', requestOptions);
+    console.log('body', body);
     try{
         const response = await fetch(SERVER_URL + url, requestOptions);
         const data = await response.json();

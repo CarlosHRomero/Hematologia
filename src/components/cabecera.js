@@ -7,7 +7,7 @@ import { ImExit } from "react-icons/im";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-const Cabecera = () => {
+const Cabecera = ({funcionBuscar}) => {
   return (
     <AppContext.Consumer>
       {(user) => {
@@ -25,7 +25,9 @@ const Cabecera = () => {
               </Col>
               <Col xs={2}>
               <div className="d-grid gap-2">
-                <Button variant="outline-light"  size="sm">
+                <Button variant="outline-light"
+                 onClick={()=>funcionBuscar()}
+                  size="sm">
                   <FaSearch />  
                 </Button></div>
               </Col>

@@ -26,7 +26,7 @@ const DatosPaciente = ({paciente}) => {
             <Col  md={5}>
                 <Form.Group className="mb-3">
                     <Form.Label>Nombre y Apellido</Form.Label>
-                    <div className="form-control" >{paciente.hcnombre} </div>
+                    <div className="form-control" >{paciente.hcapeSol.trim()+ ', ' +paciente.hcnombre} </div>
                 </Form.Group>
             </Col>
             <Col  md={2}>

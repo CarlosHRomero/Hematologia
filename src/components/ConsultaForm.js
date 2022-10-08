@@ -7,6 +7,7 @@ import { PostData } from '../FetchData/PostData';
 import { PutData } from '../FetchData/PutData';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
+//import NavigationPrompt from "react-router-navigation-prompt";
 import { Tabs } from './Tabs';
 
 function ConsultaForm({ hcnuming, modo, consId }) {
@@ -48,7 +49,7 @@ function ConsultaForm({ hcnuming, modo, consId }) {
         leerModalidadMed(setlistaModalidadMed);
         leerPedidos(setlistaPedidos);
         inicializarConsulta(modo, hcnuming, setConsulta, setlistaDosis, consId);
-    }, []
+    }, [consId]
     );
     const validaModMed = () => {
         if (consulta.consModalidadMed == null || consulta.consModalidadMed < 2) {
@@ -100,8 +101,13 @@ function ConsultaForm({ hcnuming, modo, consId }) {
 
     if (listaDroga && listaModalidadMed && listaPedidos && consulta) {
         return (
-            <div>
 
+            <div>
+{/*                 <NavigationPrompt when={true}>
+                    {({ onConfirm, onCancel }) => (
+                        alert('Esta seeguro')
+                    )}
+                </NavigationPrompt>; */}
                 <Form >
                     <Tabs>
                         <div label='Consulta'>
@@ -233,6 +239,7 @@ function ConsultaForm({ hcnuming, modo, consId }) {
                                             </Col>
                                             <Col>
                                                 <Form.Select aria-label="Default select example"
+                                                    value={undefined}
                                                     onChange={async e => {
                                                         const data = await FetchData("ListaDesplegable/estudios/" + e.target.value);
                                                         setConsulta({ ...consulta, ['consEst']: data.datoObs })
@@ -391,22 +398,22 @@ function ConsultaForm({ hcnuming, modo, consId }) {
                             </div>
                         </div>
                         <div label='Obs'>
-                        <Form.Control as='textarea'
-                                                    style={{ height: '25rem' }}
-                                                    value={consulta.consObs}
-                                                    onChange={e => {
-                                                        setConsulta({ ...consulta, ['consObs']: e.target.value })
-                                                    }}
-                                                ></Form.Control>
+                            <Form.Control as='textarea'
+                                style={{ height: '25rem' }}
+                                value={consulta.consObs}
+                                onChange={e => {
+                                    setConsulta({ ...consulta, ['consObs']: e.target.value })
+                                }}
+                            ></Form.Control>
                         </div>
                         <div label='Receta'>
-                        <Form.Control as='textarea'
-                                                    style={{ height: '25rem' }}
-                                                    value={consulta.consReceta}
-                                                    onChange={e => {
-                                                        setConsulta({ ...consulta, ['consReceta']: e.target.value })
-                                                    }}
-                                                ></Form.Control>
+                            <Form.Control as='textarea'
+                                style={{ height: '25rem' }}
+                                value={consulta.consReceta}
+                                onChange={e => {
+                                    setConsulta({ ...consulta, ['consReceta']: e.target.value })
+                                }}
+                            ></Form.Control>
                         </div>
                     </Tabs>
                 </Form>

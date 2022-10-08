@@ -20,7 +20,7 @@ function ConsultaDetail(){
         return (
             <Row>
             <Col md={3}>
-                <Arbol hcNuming={params.hcnumIng}></Arbol>
+                <Arbol hcNuming={paciente.hcnumIng}></Arbol>
             </Col>
             <Col>
                 <Toolbar linkedit={'/consultas/edit/'+params.consId} />
