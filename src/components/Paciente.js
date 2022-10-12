@@ -25,10 +25,10 @@ const PacientePage = () => {
     {
     return (
         <Row>
-            <Col md={3}>
+            <Col md={2}>
                 <Arbol hcNuming={params.hcnumIng}></Arbol>
             </Col>
-            <Col>
+            <Col md={10}>
             <div className="text-right mt-2">
                 <Link to={'/consultas/create/' + params.hcnumIng}>
                 <Button  variant="primary" >Copiar última consulta</Button>

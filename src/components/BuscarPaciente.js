@@ -21,7 +21,8 @@ const BuscarPaciente = ({ filtro, setFiltro }) => {
                             onChange={e => {
                                 setFiltro({ ...filtro, ['hcnum']: e.target.value })
                             }}
-                            className='form-control' /></td>
+                            className='form-control' />
+                            </td>
                     <td>
                         <input type='text'
                             value={filtro.apeNom}
@@ -35,11 +36,27 @@ const BuscarPaciente = ({ filtro, setFiltro }) => {
                         value={filtro.ultCons}
                         onChange={e => {
                             setFiltro({ ...filtro, ['ultCons']: e.target.value })
-                        }}
-                    /></td>
-                    <td><input type='text' className='form-control' /></td>
-                    <td><input type='text' className='form-control' /></td>
-                    <td><input type='text' className='form-control' /></td>
+                        }}/>
+                    </td>
+                    <td>
+                        
+                        </td>
+                    <td><Form.Control
+                        type="Date"
+                        value={filtro.fechaNac}
+                        onChange={e => {
+                            setFiltro({ ...filtro, ['fechaNac']: e.target.value })
+                        }}/>
+                        </td>
+                    <td>
+                    <Form.Control
+                            type="number"
+                            value={filtro.docIdentidad}
+                            onChange={e => {
+                                setFiltro({ ...filtro, ['docIdentidad']: e.target.value })
+                            }}
+                            className='form-control' />
+                    </td>
                 </tr>
 
             </tbody>

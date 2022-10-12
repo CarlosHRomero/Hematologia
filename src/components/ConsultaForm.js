@@ -145,7 +145,7 @@ function ConsultaForm({ hcnuming, modo, consId }) {
                                                 type="number"
                                                 value={consulta.consPorc}
                                                 onChange={e => {
-                                                    setConsulta({ ...consulta, ['consPorc']: e.target.value })
+                                                    setConsulta({ ...consulta, ['consPorc']: e.target.value*1 })
                                                 }}
                                             />
                                         </InputGroup>
@@ -155,7 +155,7 @@ function ConsultaForm({ hcnuming, modo, consId }) {
                                                 value={consulta.consInr}
                                                 type="number"
                                                 onChange={e => {
-                                                    setConsulta({ ...consulta, ['consInr']: e.target.value })
+                                                    setConsulta({ ...consulta, ['consInr']: e.target.value*1 })
                                                 }}
 
                                             />
@@ -166,7 +166,7 @@ function ConsultaForm({ hcnuming, modo, consId }) {
                                                 type="number"
                                                 value={consulta.consKptt}
                                                 onChange={e => {
-                                                    setConsulta({ ...consulta, ['consKptt']: e.target.value })
+                                                    setConsulta({ ...consulta, ['consKptt']:e.target.value ? e.target.value*1:null })
                                                 }}
                                             />
                                         </InputGroup>

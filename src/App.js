@@ -10,13 +10,13 @@ import {PacientePage} from "./components/Paciente";
 import {ConsultaCreate} from "./components/ConsultaCreate.js"
 import { ConsultaDetail} from "./components/ConsultaDetail";
 import { ConsultaEdit} from "./components/ConsultaEdit";
-
-import { Home } from "./components/home";
-
-
+import {TurnosDia} from "./components/TurnosDia.js"
+import { Menu } from "./components/Menu";
 import logo from './logo.svg';
 import './App.css';
-import { Button } from "react-bootstrap";
+import { DiagnosticoDetail} from "./components/DiagnosticoDetail";
+
+
 
 function App() {
   const [user, setUser] = useState(0);
@@ -27,13 +27,15 @@ function App() {
         <Layout>
           <BrowserRouter basename="/hematologia">
           <Routes>
-            <Route exact path="/" element={<Home />}></Route>
+            <Route exact path="/" element={<Menu />}></Route>
             <Route exact path="/login" element={<Login />}></Route>
             <Route exact path="/pacientes" element={<ListadoPacientes />} />
             <Route path="/paciente/:hcnumIng" element={<PacientePage />} />
             <Route path="/consultas/create/:hcnumIng" element={<ConsultaCreate />} />
             <Route path="/consultas/details/:consId" element={<ConsultaDetail />} />
             <Route path="/consultas/edit/:consId" element={<ConsultaEdit />} />
+            <Route path="/turnosdia" element={<TurnosDia />} />
+            <Route path="/diagnostico/details/:diagId" element={<DiagnosticoDetail />} />
           </Routes>
           </BrowserRouter>
         </Layout>

@@ -3,17 +3,17 @@ import { DatosPaciente } from './DatosPaciente';
 import { useState, useEffect, useContext } from 'react';
 import { FetchData } from '../FetchData/FetchData';
 import { useParams } from "react-router-dom";
-import {ConsultaForm} from './ConsultaForm'
+import {DiagnosticoForm} from './DiagnosticoForm'
 import { Row, Col } from 'react-bootstrap';
 import {Arbol} from "./Arbol";
 import {Toolbar} from "./Toolbar";
 
-function ConsultaDetail(){
+function DiagnosticoDetail(){
     const params = useParams();
     const [paciente, setPaciente] = useState();
     const [cargando, setCargando] = useState(false);
     useEffect(() => {
-        leerPaciente(params.consId, setPaciente, setCargando);
+        leerPaciente(params.diagId, setPaciente, setCargando);
     }, []
     );
     if (paciente) {
@@ -23,13 +23,14 @@ function ConsultaDetail(){
                 <Arbol hcNuming={paciente.hcnumIng}></Arbol>
             </Col>
             <Col>
-                <Toolbar modo='detail' linkedit={'/consultas/edit/'+params.consId}
+                <Toolbar modo='detail' linkedit={'/Diagnosticos/edit/'+params.consId}
                 linkpaciente={'/paciente/'+paciente.hcnumIng}
                  />
                 <DatosPaciente paciente={paciente}></DatosPaciente>
                 <h5 className='text-left m-2'></h5>
+                <DiagnosticoForm diagId={params.diagId} modo = 'detail'></DiagnosticoForm>
                 <fieldset disabled="disabled">
-                <ConsultaForm consId={params.consId} modo = 'detail'></ConsultaForm>
+                
                 </fieldset>
             </Col>
             </Row>
@@ -38,9 +39,9 @@ function ConsultaDetail(){
 }
 
 
-async function leerPaciente(consId, setPaciente, setCargando) {
-    console.log(consId);
-    const datac = await FetchData("consultas/" + consId);
+async function leerPaciente(diagId, setPaciente, setCargando) {
+    console.log(diagId);
+    const datac = await FetchData("Diagnostico/" + diagId);
     console.log(datac);
     console.log(datac.hcnumIng);
     const datap = await FetchData("pacientes/PacientePorhcNumIng/" + datac.hcnumIng);
@@ -51,4 +52,4 @@ async function leerPaciente(consId, setPaciente, setCargando) {
 
 
 
-export { ConsultaDetail }
+export { DiagnosticoDetail }

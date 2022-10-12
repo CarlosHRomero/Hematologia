@@ -14,7 +14,9 @@ const ListadoPacientes = () => {
   const [filtro, setFiltro]= useState({
     apeNom:'',
     hcnum:null,
-    ultCons:null
+    ultCons:null,
+    fechaNac:null,
+    docIdentidad:null
   });
   useEffect(() => {
     //alert('hola');
@@ -37,14 +39,18 @@ const ListadoPacientes = () => {
 async function filtrarPacientes(setLista, setCargando, filtro) {
   
   var data;
-  
-  if(!filtro.apeNom && !filtro.hcnum && !filtro.ultCons){
+  const flag = !filtro.apeNom && !filtro.hcnum && !filtro.ultCons && !filtro.docIdentidad  && !filtro.fechaNac ;
+  console.log(!filtro.hcnum);
+  console.log(flag);
+  if(flag){
     data = await FetchData("pacientes/ListadoPacientes");
   }
   else
   {
     filtro.ultCons=filtro.ultCons==''?null:filtro.ultCons
     filtro.hcnum=filtro.hcnum==''?null:filtro.hcnum
+    filtro.docIdentidad=filtro.docIdentidad==''?null:filtro.docIdentidad
+    filtro.fechaNac=filtro.fechaNac==''?null:filtro.fechaNac
     console.log('filtro', filtro);
 
     data = await PostData("pacientes/FiltrarPacientes",filtro);

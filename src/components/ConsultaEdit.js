@@ -23,7 +23,10 @@ function ConsultaEdit(){
                 <Arbol hcNuming={paciente.hcnumIng}></Arbol>
             </Col>
             <Col>
-                <Toolbar modo='edit'/>
+                <Toolbar modo='edit'  
+                linkdetail={'/consultas/details/'+params.consId}
+                linkpaciente={'/paciente/'+paciente.hcnumIng}
+                />
                 <DatosPaciente paciente={paciente}></DatosPaciente>
                 <h5 className='text-left m-2'></h5>
                 <ConsultaForm consId={params.consId} modo = 'edit'></ConsultaForm>

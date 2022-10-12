@@ -10,8 +10,10 @@ import Col from "react-bootstrap/Col";
 import { Link } from 'react-router-dom';
 import { authManager } from '../authetication/authenticationManager';
 import { useNavigate } from 'react-router-dom';
-const Toolbar = (modo, linkedit) => {
+const Toolbar = ({modo, linkedit, linkdetail, linkpaciente}) => {
     const navigate = useNavigate();
+    console.log(modo)
+    console.log(modo=='detail');
     return (
         <AppContext.Consumer>
             {(user) => {
@@ -48,31 +50,34 @@ const Toolbar = (modo, linkedit) => {
                                     </Button></div>
                             </Col> */}
                             <Col xs={1}>
-                                <div className="d-grid gap-2">
-                                    <Button variant="outline-light" size="sm">
-                                        Ver
-                                    </Button>
-                                </div>
-                            </Col>
-                            <Col xs={1}>
                                 {
                                 modo=='detail'?
-                                <Link to={linkedit.linkedit}>
+                                <Link to={linkedit}>
                                     <div className="d-grid gap-2">
                                         <Button variant="outline-light" size="sm">
                                             Editar
                                         </Button>
                                     </div>
                                 </Link>
-                                :null
-            }
+                                :
+                                <Link to={linkdetail}>
+                                <div className="d-grid gap-2">
+                                <Button variant="outline-light" size="sm">
+                                    Ver
+                                </Button>
+                                </div>
+                                </Link>
+                
+                                            }
                             </Col>
                             <Col xs={1}>
+                            <Link to={linkpaciente}>
                                 <div className="d-grid gap-2">
                                     <Button variant="outline-light" size="sm">
-                                        Borrar
+                                        Paciente
                                     </Button>
                                 </div>
+                                </Link>
                             </Col>
                         </Row>
                     </div>

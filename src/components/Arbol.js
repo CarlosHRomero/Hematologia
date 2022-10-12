@@ -57,6 +57,11 @@ const Arbol = ({ hcNuming }) => {
                         key={diagnostico.diagId.toString() }
                         label={diagnostico.diagFecha.toString()}
                         sx={{color: 'blue', paddingTop: 0.6}}
+                        onClick= {() => {
+                            //alert('/consultas/details/'+ consulta.consId)
+                            navigate('/diagnostico/details/'+ diagnostico.diagId)
+                            //navigate('/login/')
+                        }}
                         />
                     ))}
                 
@@ -84,7 +89,7 @@ async function leerConsultas(hcNuming, setConsutas, setCargando) {
     setCargando(true);
     const data = await FetchData("Diagnostico/DiagnosticoPorHcnuming/" + hcNuming);
     
-    console.log('diagnostico',data);
+    //console.log('diagnostico',data);
     setDiagnosticos(data );
     setCargando(false);
   }
