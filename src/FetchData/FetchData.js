@@ -13,12 +13,17 @@ async function FetchData(url) {
   if (token) {
     _headers.headers["Authorization"] = "Bearer " + token;
   }
-
+try{
   const response = await fetch(SERVER_URL+url, _headers);
  // console.log('response',response);
   const data = await response.json();
   //console.log(data);
   return data;
+}
+catch(e){
+  window.location.replace('/error')
+}
+  
 }
 
 async function GetData(url, body) {

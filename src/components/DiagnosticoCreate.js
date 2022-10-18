@@ -8,47 +8,37 @@ import { Row, Col } from 'react-bootstrap';
 import {Arbol} from "./Arbol";
 import {Toolbar} from "./Toolbar";
 
-function DiagnosticoDetail(){
+function DiagnosticoCreate(){
     const params = useParams();
     const [paciente, setPaciente] = useState();
     const [cargando, setCargando] = useState(false);
     useEffect(() => {
-        leerPaciente(params.diagId, setPaciente, setCargando);
+        leerPaciente(params.hcnumIng, setPaciente, setCargando);
     }, []
     );
     if (paciente) {
         return (
             <Row>
             <Col md={3}>
-                <Arbol hcNuming={paciente.hcnumIng}></Arbol>
+                <Arbol hcNuming={params.hcnumIng}></Arbol>
             </Col>
             <Col>
-            <fieldset disabled="disabled">
-                <Toolbar modo='detail' linkedit={'/Diagnostico/edit/'+params.diagId}
-                linkpaciente={'/paciente/'+paciente.hcnumIng}
-                 />
                 <DatosPaciente paciente={paciente}></DatosPaciente>
                 <h5 className='text-left m-2'></h5>
-                <DiagnosticoForm diagId={params.diagId} modo = 'detail'></DiagnosticoForm>
-                </fieldset>
+                <DiagnosticoForm hcnuming={params.hcnumIng} modo = 'create'></DiagnosticoForm>
             </Col>
             </Row>
         )
     }
 }
 
+async function leerPaciente(hcNuming, setPaciente, setCargando) {
+    //console.log(hcNuming);
+    const data = await FetchData("pacientes/PacientePorhcNumIng/" + hcNuming);
 
-async function leerPaciente(diagId, setPaciente, setCargando) {
-    console.log(diagId);
-    const datac = await FetchData("Diagnostico/" + diagId);
-    console.log(datac);
-    console.log(datac.hcnumIng);
-    const datap = await FetchData("pacientes/PacientePorhcNumIng/" + datac.hcnumIng);
-    
-    setPaciente(datap);
+    //console.log(data);
+    setPaciente(data);
     setCargando(false);
 }
 
-
-
-export { DiagnosticoDetail }
+export {DiagnosticoCreate}

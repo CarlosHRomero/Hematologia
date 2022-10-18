@@ -46,21 +46,27 @@ const Arbol = ({ hcNuming }) => {
 
                 </TreeItem>
 
-                <TreeItem nodeId="2" label="Diagnostico" sx={{color: 'navy', paddingTop: 0.5}} 
+                <TreeItem nodeId={'2'} label="Diagnostico" sx={{color: 'navy', paddingTop: 0.5}} 
                  onClick= {() => {
                     console.log(diagnosticos)}}
                 >
+                <TreeItem nodeId={'0'}
+                label= 'Nuevo diagnostico'
+                sx={{color: 'maroon', paddingTop: 0.6}}
+                onClick= {() => {
+                    navigate('/diagnostico/create/'+ hcNuming)
+                }}
+
+                 />
                 {
                 diagnosticos.map((diagnostico) => 
                     (
                         <TreeItem nodeId={diagnostico.diagId.toString() }
                         key={diagnostico.diagId.toString() }
-                        label={diagnostico.diagFecha.toString()}
+                        label={diagnostico.diagFecha ? diagnostico.diagFecha.toString(): null}
                         sx={{color: 'blue', paddingTop: 0.6}}
                         onClick= {() => {
-                            //alert('/consultas/details/'+ consulta.consId)
                             navigate('/diagnostico/details/'+ diagnostico.diagId)
-                            //navigate('/login/')
                         }}
                         />
                     ))}

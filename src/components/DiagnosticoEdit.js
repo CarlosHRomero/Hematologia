@@ -8,7 +8,7 @@ import { Row, Col } from 'react-bootstrap';
 import {Arbol} from "./Arbol";
 import {Toolbar} from "./Toolbar";
 
-function DiagnosticoDetail(){
+function DiagnosticoEdit(){
     const params = useParams();
     const [paciente, setPaciente] = useState();
     const [cargando, setCargando] = useState(false);
@@ -23,14 +23,13 @@ function DiagnosticoDetail(){
                 <Arbol hcNuming={paciente.hcnumIng}></Arbol>
             </Col>
             <Col>
-            <fieldset disabled="disabled">
-                <Toolbar modo='detail' linkedit={'/Diagnostico/edit/'+params.diagId}
+                <Toolbar modo='edit'  
+                linkdetail={'/Diagnostico/details/'+params.diagId}
                 linkpaciente={'/paciente/'+paciente.hcnumIng}
-                 />
+                />
                 <DatosPaciente paciente={paciente}></DatosPaciente>
                 <h5 className='text-left m-2'></h5>
-                <DiagnosticoForm diagId={params.diagId} modo = 'detail'></DiagnosticoForm>
-                </fieldset>
+                <DiagnosticoForm diagId={params.diagId} modo = 'edit'></DiagnosticoForm>
             </Col>
             </Row>
         )
@@ -51,4 +50,4 @@ async function leerPaciente(diagId, setPaciente, setCargando) {
 
 
 
-export { DiagnosticoDetail }
+export { DiagnosticoEdit }

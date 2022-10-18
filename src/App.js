@@ -15,6 +15,8 @@ import { Menu } from "./components/Menu";
 import logo from './logo.svg';
 import './App.css';
 import { DiagnosticoDetail} from "./components/DiagnosticoDetail";
+import { DiagnosticoEdit} from "./components/DiagnosticoEdit";
+import { DiagnosticoCreate} from "./components/DiagnosticoCreate";
 
 
 
@@ -28,6 +30,7 @@ function App() {
           <BrowserRouter basename="/hematologia">
           <Routes>
             <Route exact path="/" element={<Menu />}></Route>
+            {/* <Route path="/error" element={<Error />} /> */}
             <Route exact path="/login" element={<Login />}></Route>
             <Route exact path="/pacientes" element={<ListadoPacientes />} />
             <Route path="/paciente/:hcnumIng" element={<PacientePage />} />
@@ -35,7 +38,9 @@ function App() {
             <Route path="/consultas/details/:consId" element={<ConsultaDetail />} />
             <Route path="/consultas/edit/:consId" element={<ConsultaEdit />} />
             <Route path="/turnosdia" element={<TurnosDia />} />
+            <Route path="/diagnostico/create/:hcnumIng" element={<DiagnosticoCreate />} />
             <Route path="/diagnostico/details/:diagId" element={<DiagnosticoDetail />} />
+            <Route path="/diagnostico/edit/:diagId" element={<DiagnosticoEdit />} />
           </Routes>
           </BrowserRouter>
         </Layout>

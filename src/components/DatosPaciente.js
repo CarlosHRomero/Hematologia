@@ -18,13 +18,13 @@ const DatosPaciente = ({paciente}) => {
         leerDiagnostico(paciente.hcnumIng, setDiagnostico);
         leerComplicaciones(paciente.hcnumIng, setComplicaciones);
         
-          },[]
+          },[paciente]
       );
     if(!!paciente)
     {
         //console.log(TTR);
     return <div className="text-left mt-2">
-        <h5>DatosPaciente</h5>        
+        <h5>Datos Paciente</h5>        
         <div className="grupo">
 
         <Row >
