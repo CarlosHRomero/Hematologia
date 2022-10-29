@@ -9,18 +9,40 @@ import {DatosPaciente} from './DatosPaciente';
 import {FetchData} from '../FetchData/FetchData';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
-
+import { RotatingLines } from 'react-loader-spinner'
+import {Error} from './Error';
 const PacientePage = () => {
+
     let params = useParams();
     const [paciente, setPaciente] = useState();
 
-    
+    const [error, setError] = useState(false);
     const [cargando, setCargando] = useState(false);
     useEffect(() => {
         //alert('hola');
-        leerPaciente(params.hcnumIng, setPaciente, setCargando);
+        leerPaciente(params.hcnumIng, setPaciente, setCargando,setError);
           },[]
       );
+      if (cargando) {
+        return (
+          <div>
+            <RotatingLines
+              strokeColor="grey"
+              strokeWidth="5"
+              animationDuration="0.75"
+              width="96"
+              visible={true}
+            />
+          </div>
+        )
+      }
+      if(error){
+        return(
+          <div>
+            <Error message={error.message} />
+          </div>
+        )
+      }
     if(!!paciente)
     {
     return (
@@ -46,12 +68,17 @@ const PacientePage = () => {
     }
 }
 
-async function leerPaciente(hcNuming, setPaciente, setCargando) {
+async function leerPaciente(hcNuming, setPaciente, setCargando, setError) {
     //console.log(hcNuming);
-    const data = await FetchData("pacientes/PacientePorhcNumIng/" + hcNuming);
-    
-    //console.log(data);
-    setPaciente(data);
+    try
+    {
+        const data = await FetchData("pacientes/PacientePorhcNumIng/" + hcNuming, true);
+        //console.log(data);
+        setPaciente(data);
+    }
+    catch(e){
+        setError(e);
+    }
     setCargando(false);
   }
 

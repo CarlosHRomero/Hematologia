@@ -114,8 +114,8 @@ async function leerDiagnostico(hcNuming, setDiagnostico) {
   async function leerComplicaciones(hcNuming, setComplicaciones) {
     //console.log(hcNuming);
     let data = await FetchData("Complicaciones/DescripcionComplicaciones/" + hcNuming);
-    if(data=='')
-        data='x ';
+    // if(data=='')
+    //     data='_';
     
     console.log('complicaciones', data);
     setComplicaciones(data);

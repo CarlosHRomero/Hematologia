@@ -42,9 +42,10 @@ class AuthenticationManager {
             Username: userName,
             Password: password,
         });
-        //console.log('resultado: ' +result);
+        
         if (result?.status === 200) {
             const data = await result.json();
+            console.log('en login token: ' +data);
             if (data) {
                 authManager.updateToken(data);
                 return true;
@@ -112,11 +113,11 @@ class AuthenticationManager {
         this._token = token;
         this._user = null;
         try {
-            // this._user = JwtDecode(token);
-            this._user = 'xxx';
+            this._user = parseJwt(token);
+            console.log(this._user);
         } catch (error) {
-            //console.log(error);
-            //alert(error.message);
+            
+            alert(error.message);
         }
     }
 
@@ -143,7 +144,7 @@ class AuthenticationManager {
             return "";
         }
         const jtoken = JSON.parse(result);
-        //console.log('en get access token jtoken = ' + jtoken);
+        console.log('en get access token jtoken = ' + jtoken);
         return jtoken;
     }
 
@@ -161,5 +162,15 @@ class AuthenticationManager {
 }
 
 const authManager = new AuthenticationManager();
+function parseJwt (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
+
 
 export { authManager };

@@ -1,7 +1,7 @@
 import React from "react";
-import { useState, useEffect, useContext  } from 'react';
-import {TreeView, TreeItem} from '@mui/lab';
-import {FetchData} from '../FetchData/FetchData';
+import { useState, useEffect, useContext } from 'react';
+import { TreeView, TreeItem } from '@mui/lab';
+import { FetchData } from '../FetchData/FetchData';
 //import {leerConsultas} from '../FetchData/LeerDatos';
 //import ExpandMoreIcon from '@material-ui/icons/ExpandMoreIcon';
 
@@ -11,95 +11,189 @@ import { useNavigate } from 'react-router-dom';
 const Arbol = ({ hcNuming }) => {
     const [consultas, setConsultas] = useState([]);
     const [diagnosticos, setDiagnosticos] = useState([]);
+    const [tratamiento, setTratamiento] = useState([]);
+    const [facRiesgo, setFacRiesgo] = useState([]);
+    const [complicaciones, setComplicaciones] = useState([]);
     const [cargando, setCargando] = useState(false);
     const navigate = useNavigate();
     useEffect(() => {
-        leerConsultas(hcNuming, setConsultas, setCargando);    
+        leerConsultas(hcNuming, setConsultas, setCargando);
         leerDiagnostico(hcNuming, setDiagnosticos, setCargando);
-          },[]
-      );
-    console.log(diagnosticos);
-    if(consultas && diagnosticos)
-    return (        
-        <div className="text-left mt-4" >
-            <TreeView
-             aria-label="file system navigator"
-             defaultCollapseIcon={<ExpandMore />}
-             defaultExpandIcon={<ChevronRight />}
-             sx={{ height: 480, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
-            >
-                <TreeItem nodeId="1" label="Consultas"                 
-                    sx={{color: 'navy', paddingTop: 0.6}} 
-                    >
-                    {consultas.map((consulta) => (
-                        <TreeItem key={consulta.consId.toString()} nodeId={consulta.consId.toString()} 
-                        label={'{'+(new Date(consulta.consConsultaF)).toLocaleDateString()+'}'}
-                        onClick= {() => {
-                            //alert('/consultas/details/'+ consulta.consId)
-                            navigate('/consultas/details/'+ consulta.consId)
-                            //navigate('/login/')
-                        }}
-                        sx={{color: 'blue', paddingTop: 0.6}}
-                        />
-                        
-                    ))}
+        leerFacRiesgo(hcNuming, setFacRiesgo, setCargando);
+        leerTratamiento(hcNuming, setTratamiento, setCargando);
+        leerComplicaciones(hcNuming, setComplicaciones, setCargando);
+    }, []
+    );
 
-                </TreeItem>
-
-                <TreeItem nodeId={'2'} label="Diagnostico" sx={{color: 'navy', paddingTop: 0.5}} 
-                 onClick= {() => {
-                    console.log(diagnosticos)}}
+    if (consultas && diagnosticos && facRiesgo && tratamiento)
+        return (
+            <div className="text-left mt-4" >
+                <TreeView
+                    aria-label="file system navigator"
+                    defaultCollapseIcon={<ExpandMore />}
+                    defaultExpandIcon={<ChevronRight />}
+                    sx={{ height: 480, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
                 >
-                <TreeItem nodeId={'0'}
-                label= 'Nuevo diagnostico'
-                sx={{color: 'maroon', paddingTop: 0.6}}
-                onClick= {() => {
-                    navigate('/diagnostico/create/'+ hcNuming)
-                }}
+                    <TreeItem nodeId="1" label="Consultas"
+                        sx={{ color: 'navy', paddingTop: 0.6 }}
+                    >
+                        {consultas.map((consulta) => (
+                            <TreeItem key={consulta.consId.toString()} nodeId={consulta.consId.toString()}
+                                label={'{' + (new Date(consulta.consConsultaF)).toLocaleDateString() + '}'}
+                                onClick={() => {
+                                    //alert('/consultas/details/'+ consulta.consId)
+                                    navigate('/consultas/details/' + consulta.consId)
+                                    //navigate('/login/')
+                                }}
+                                sx={{ color: 'blue', paddingTop: 0.6 }}
+                            />
 
-                 />
-                {
-                diagnosticos.map((diagnostico) => 
-                    (
-                        <TreeItem nodeId={diagnostico.diagId.toString() }
-                        key={diagnostico.diagId.toString() }
-                        label={diagnostico.diagFecha ? diagnostico.diagFecha.toString(): null}
-                        sx={{color: 'blue', paddingTop: 0.6}}
-                        onClick= {() => {
-                            navigate('/diagnostico/details/'+ diagnostico.diagId)
+                        ))}
+
+                    </TreeItem>
+
+                    <TreeItem nodeId={'2'} label="Diagnostico" sx={{ color: 'navy', paddingTop: 0.5 }}
+                        onClick={() => {
+                            console.log(diagnosticos)
                         }}
+                    >
+                        <TreeItem nodeId={'20'}
+                            label='Nuevo diagnostico'
+                            sx={{ color: 'maroon', paddingTop: 0.6 }}
+                            onClick={() => {
+                                navigate('/diagnostico/create/' + hcNuming)
+                            }}
+
                         />
-                    ))}
-                
-                </TreeItem>
-            </TreeView>
-        </div>
-    )
+                        {
+                            diagnosticos.map((diagnostico) =>
+                            (
+                                <TreeItem nodeId={diagnostico.diagId.toString()}
+                                    key={diagnostico.diagId.toString()}
+                                    label={diagnostico.diagFecha ? diagnostico.diagFecha.toString() : null}
+                                    sx={{ color: 'blue', paddingTop: 0.6 }}
+                                    onClick={() => {
+                                        navigate('/diagnostico/details/' + diagnostico.diagId)
+                                    }}
+                                />
+                            ))}
+
+                    </TreeItem>
+                    <TreeItem nodeId="3" label="Factores de Riesgo"
+                        sx={{ color: 'navy', paddingTop: 0.6 }}
+                    >
+                        <TreeItem nodeId={'30'}
+                            label='Alta  factor de Riesgo'
+                            sx={{ color: 'maroon', paddingTop: 0.6 }}
+                            onClick={() => {
+                                navigate('/facRiesgo/create/' + hcNuming)
+                            }}
+
+                        />
+                        {
+                            facRiesgo.map((fac) =>
+                            (
+                                <TreeItem nodeId={fac.facId.toString()}
+                                    key={fac.facId.toString()}
+                                    label={fac.diagFecha ? fac.diagFecha.toString() : null}
+                                    sx={{ color: 'blue', paddingTop: 0.6 }}
+                                    onClick={() => {
+                                        navigate('/facRiesgo/details/' + fac.facId)
+                                    }}
+                                />
+                            ))}
+                    </TreeItem>
+                    <TreeItem nodeId="4" label="Tratamiento"
+                        sx={{ color: 'navy', paddingTop: 0.6 }}>
+                        <TreeItem nodeId="41" label="Tratamiento Base"
+                            sx={{ color: 'navy', paddingTop: 0.6 }}
+                        >
+                            {
+                                tratamiento.map((trat) =>
+                                (
+                                    <TreeItem nodeId={trat.tratId.toString()}
+                                        key={trat.tratId.toString()}
+                                        label={trat.tratFd ? trat.tratFd.toString() : null}
+                                        sx={{ color: 'blue', paddingTop: 0.6 }}
+                                        onClick={() => {
+                                            navigate('/tratamiento/details/' + trat.tratId)
+                                        }}
+                                    />
+                                ))}
+                        </TreeItem>
+
+                    </TreeItem>
+
+                    <TreeItem nodeId="4" label="Complicaciones o Eventos"
+                        sx={{ color: 'navy', paddingTop: 0.6 }}>
+                            {
+                                complicaciones.map((comp) =>
+                                (
+                                    <TreeItem nodeId={comp.compId.toString()}
+                                        key={comp.compId.toString()}
+                                        label={comp.diagFecha ? comp.diagFecha.toString() : null}
+                                        sx={{ color: 'blue', paddingTop: 0.6 }}
+                                        onClick={() => {
+                                            navigate('/complicaciones/details/' + comp.compId)
+                                        }}
+                                    />
+                                ))}
+                    </TreeItem>
+                </TreeView>
+            </div>
+        )
 }
 
 
 async function leerConsultas(hcNuming, setConsutas, setCargando) {
     //console.log(hcNuming);
     let data = await FetchData("Consultas/ConsultasPorHcnuming/" + hcNuming);
-    
-    
-    if(data.length > 4)
-        data=data.slice(0,4);
+
+
+    if (data.length > 4)
+        data = data.slice(0, 4);
     console.log(data);
     setConsutas(data);
     setCargando(false);
-  }
+}
 
-  async function leerDiagnostico(hcNuming, setDiagnosticos, setCargando) {
+async function leerDiagnostico(hcNuming, setDiagnosticos, setCargando) {
     //console.log(hcNuming);
     setCargando(true);
     const data = await FetchData("Diagnostico/DiagnosticoPorHcnuming/" + hcNuming);
-    
+
     //console.log('diagnostico',data);
-    setDiagnosticos(data );
+    setDiagnosticos(data);
     setCargando(false);
-  }
+}
 
+async function leerFacRiesgo(hcNuming, setFacRiesgo, setCargando) {
+    //console.log(hcNuming);
+    setCargando(true);
+    const data = await FetchData("FacRiesgo/FacRiesgoPorHcnuming/" + hcNuming);
 
+    console.log('fac riesgo', data);
+    setFacRiesgo(data);
+    setCargando(false);
+}
 
+async function leerTratamiento(hcNuming, setTratamiento, setCargando) {
+    //console.log(hcNuming);
+    setCargando(true);
+    const data = await FetchData("Tratamiento/TratamientoPorHcnuming/" + hcNuming);
+
+    console.log('Tratamiento', data);
+    setTratamiento(data);
+    setCargando(false);
+}
+
+async function leerComplicaciones(hcNuming, setComplicaciones, setCargando) {
+    //console.log(hcNuming);
+    setCargando(true);
+    const data = await FetchData("Complicaciones/ComplicacionesPorHcnuming/" + hcNuming);
+
+    console.log('Complicaciones', data);
+    setComplicaciones(data);
+    setCargando(false);
+}
 export { Arbol }

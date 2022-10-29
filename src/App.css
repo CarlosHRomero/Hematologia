@@ -83,3 +83,12 @@ html {
   border: solid #ccc;
   border-width: 1px 1px 0 1px;
 }
+
+.form-control{
+  min-height: 2.3em;
+}
+
+
+.light-gray{
+  background-color: lightgray;
+}

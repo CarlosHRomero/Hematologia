@@ -19,6 +19,10 @@ async function PostData(url, body) {
     console.log('body', body);
     try{
         const response = await fetch(SERVER_URL + url, requestOptions);
+        if(!response.ok){
+            console.log(response);
+            throw Error('En PostData: ' +response.status + ' '+response.statusText, response.status);
+         }
         const data = await response.json();
         console.log('data', data)
         return data;

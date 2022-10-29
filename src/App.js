@@ -6,7 +6,7 @@ import { AppProvider } from "./context/AppContext";
 //import {Home} from './components/Home';
 import {Login} from './components/login';
 import { ListadoPacientes } from "./components/ListadoPacientes";
-import {PacientePage} from "./components/Paciente";
+import {PacientePage} from "./components/PacientePage";
 import {ConsultaCreate} from "./components/ConsultaCreate.js"
 import { ConsultaDetail} from "./components/ConsultaDetail";
 import { ConsultaEdit} from "./components/ConsultaEdit";
@@ -18,7 +18,14 @@ import { DiagnosticoDetail} from "./components/DiagnosticoDetail";
 import { DiagnosticoEdit} from "./components/DiagnosticoEdit";
 import { DiagnosticoCreate} from "./components/DiagnosticoCreate";
 
+import { FacriesgoCreate} from "./components/FacriesgoCreate";
+import { FacriesgoDetail} from "./components/FacriesgoDetail";
+import { FacriesgoEdit} from "./components/FacriesgoEdit";
 
+import { TratamientoDetail} from "./components/TratamientoDetail";
+import { TratamientoEdit} from "./components/TratamientoEdit";
+
+import { ComplicacionesDetail} from "./components/ComplicacionesDetail";
 
 function App() {
   const [user, setUser] = useState(0);
@@ -41,6 +48,15 @@ function App() {
             <Route path="/diagnostico/create/:hcnumIng" element={<DiagnosticoCreate />} />
             <Route path="/diagnostico/details/:diagId" element={<DiagnosticoDetail />} />
             <Route path="/diagnostico/edit/:diagId" element={<DiagnosticoEdit />} />
+            <Route path="/diagnostico/edit/:diagId" element={<DiagnosticoEdit />} />
+            <Route path="/facriesgo/create/:hcnumIng" element={<FacriesgoCreate />} />
+            <Route path="/facriesgo/details/:facId" element={<FacriesgoDetail/> } />
+            <Route path="/facriesgo/edit/:facId" element={<FacriesgoEdit/> } />
+
+            <Route path="/tratamiento/details/:tratId" element={<TratamientoDetail/> } />
+            <Route path="/tratamiento/edit/:tratId" element={<TratamientoEdit/> } />
+
+            <Route path="/complicaciones/details/:compId" element={<ComplicacionesDetail/> } />
           </Routes>
           </BrowserRouter>
         </Layout>

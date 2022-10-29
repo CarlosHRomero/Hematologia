@@ -9,10 +9,12 @@ import Button from 'react-bootstrap/Button';
 import { useNavigate } from 'react-router-dom';
 //import NavigationPrompt from "react-router-navigation-prompt";
 import { Tabs } from './Tabs';
+import { RotatingLines } from 'react-loader-spinner'
 
 function ConsultaForm({ hcnuming, modo, consId }) {
-    //console.log(modo)
+    //console.log(hcnuming)
     const navigate = useNavigate();
+    const [cargando, setCargando] = useState(false);
     const [listaDroga, setlistaDroga] = useState();
     const [listaModalidadMed, setlistaModalidadMed] = useState();
     const [listaPedidos, setlistaPedidos] = useState();
@@ -30,7 +32,10 @@ function ConsultaForm({ hcnuming, modo, consId }) {
     const [laboratorio, setLaboratorio] = useState({ porc: '' });
     const [consulta, setConsulta] = useState(null);
     const [errors, seterrors] = useState(
-        { consModalidadMed: false }
+        {
+            consModalidadMed: false,
+            consInr: false
+        }
     );
 
     const equiv = {
@@ -48,7 +53,7 @@ function ConsultaForm({ hcnuming, modo, consId }) {
         leerListaDroga(setlistaDroga);
         leerModalidadMed(setlistaModalidadMed);
         leerPedidos(setlistaPedidos);
-        inicializarConsulta(modo, hcnuming, setConsulta, setlistaDosis, consId);
+        inicializarConsulta(modo, hcnuming, setConsulta, setlistaDosis, consId, setCargando);
     }, [consId]
     );
     const validaModMed = () => {
@@ -62,15 +67,60 @@ function ConsultaForm({ hcnuming, modo, consId }) {
         }
 
     }
+
+    const validaInr = () => {
+        //if (!parseInt(consulta.consInr * 100) || parseInt(consulta.consInr * 100) > 10000) {
+        if (parseInt(consulta.consInr * 100) > 10000) {
+            seterrors({ ...errors, 'consInr': true });
+            return false;
+        }
+        else {
+            seterrors({ ...errors, 'consInr': false });
+            return true;
+        }
+    }
+    const validaPorc = () => {
+        if (parseInt(consulta.consPorc) > 2000) {
+            seterrors({ ...errors, 'consPorc': true });
+            return false;
+        }
+        else {
+            seterrors({ ...errors, 'consPorc': false });
+            return true;
+        }
+    }
+
+    const validaKptt = () => {
+        if ( parseInt(consulta.consKppt) > 2000) {
+            seterrors({ ...errors, 'consKppt': true });
+            return false;
+        }
+        else {
+            seterrors({ ...errors, 'consKppt': false });
+            return true;
+        }
+    }
+
     const validar = () => {
+        var res = true;
         if (!validaModMed())
-            return false
+            res = false;
+
+        if (!validaInr())
+            res = false;
+
+        if (!validaPorc())
+            res = false;
+        if (!validaKptt())
+            res = false;
+
         for (let prop in errors) {
             console.log(prop, errors[prop])
             if (errors[prop])
-                return false
+                res = false
         }
-        return true;
+        //res= true;
+        return res;
     }
 
     const resetDosis = () => {
@@ -98,12 +148,24 @@ function ConsultaForm({ hcnuming, modo, consId }) {
                 */
 
     }
-
+    if (cargando) {
+        return (
+            <div>
+                <RotatingLines
+                    strokeColor="grey"
+                    strokeWidth="5"
+                    animationDuration="0.75"
+                    width="96"
+                    visible={true}
+                />
+            </div>
+        )
+    }
     if (listaDroga && listaModalidadMed && listaPedidos && consulta) {
         return (
 
             <div>
-{/*                 <NavigationPrompt when={true}>
+                {/*                 <NavigationPrompt when={true}>
                     {({ onConfirm, onCancel }) => (
                         alert('Esta seeguro')
                     )}
@@ -138,38 +200,63 @@ function ConsultaForm({ hcnuming, modo, consId }) {
                                                 }
                                             />
                                         </InputGroup>
-                                        <InputGroup className="mb-3">
-                                            <InputGroup.Text
-                                            >%</InputGroup.Text>
-                                            <Form.Control
-                                                type="number"
-                                                value={consulta.consPorc}
-                                                onChange={e => {
-                                                    setConsulta({ ...consulta, ['consPorc']: e.target.value*1 })
-                                                }}
-                                            />
-                                        </InputGroup>
-                                        <InputGroup className="mb-3">
-                                            <InputGroup.Text id="inputGroup-sizing-sm">INR</InputGroup.Text>
-                                            <Form.Control
-                                                value={consulta.consInr}
-                                                type="number"
-                                                onChange={e => {
-                                                    setConsulta({ ...consulta, ['consInr']: e.target.value*1 })
-                                                }}
+                                        <div className="mb-3">
+                                            <InputGroup>
+                                                <InputGroup.Text
+                                                >%</InputGroup.Text>
+                                                <Form.Control
+                                                    type="number"
+                                                    value={consulta.consPorc}
+                                                    onChange={e => {
+                                                        //setConsulta({ ...consulta, ['consPorc']: e.target.value * 1 })
+                                                        setConsulta({ ...consulta, ['consPorc']: e.target.value ? e.target.value * 1 : null })
+                                                    }}
+                                                    onBlur={validaPorc}
+                                                />
+                                            </InputGroup>
+                                            {errors.consPorc ?
+                                                <span aria-live="assertive" className='error'>
+                                                    Valor inválido
+                                                </span> : null
+                                            }
+                                        </div>
+                                        <div className="mb-3">
+                                            <InputGroup >
+                                                <InputGroup.Text id="inputGroup-sizing-sm">INR</InputGroup.Text>
+                                                <Form.Control
+                                                    value={consulta.consInr}
+                                                    type="number"
+                                                    onChange={e => {
+                                                        setConsulta({ ...consulta, ['consInr']: e.target.value ? e.target.value * 1 : null })
+                                                    }}
+                                                    onBlur={validaInr}
+                                                />
+                                            </InputGroup>
+                                            {errors.consInr ?
+                                                <span aria-live="assertive" className='error'>
+                                                    Inr inválida
+                                                </span> : null
+                                            }
 
-                                            />
-                                        </InputGroup>
-                                        <InputGroup className="mb-3">
-                                            <InputGroup.Text id="inputGroup-sizing-sm">KPTT</InputGroup.Text>
-                                            <Form.Control
-                                                type="number"
-                                                value={consulta.consKptt}
-                                                onChange={e => {
-                                                    setConsulta({ ...consulta, ['consKptt']:e.target.value ? e.target.value*1:null })
-                                                }}
-                                            />
-                                        </InputGroup>
+                                        </div>
+                                        <div className="mb-3">
+                                            <InputGroup >
+                                                <InputGroup.Text id="inputGroup-sizing-sm">KPTT</InputGroup.Text>
+                                                <Form.Control
+                                                    type="number"
+                                                    value={consulta.consKptt}
+                                                    onChange={e => {
+                                                        setConsulta({ ...consulta, ['consKptt']: e.target.value ? e.target.value * 1 : null })
+                                                    }}
+                                                    onBlur={validaKptt}
+                                                />
+                                            </InputGroup>
+                                            {errors.consKppt ?
+                                                <span aria-live="assertive" className='error'>
+                                                    Valor inválido
+                                                </span> : null
+                                            }
+                                        </div>
                                         <InputGroup className="mb-3">
                                             <InputGroup.Text id="inputGroup-sizing-sm">Droga</InputGroup.Text>
                                             <Form.Select aria-label="Default select example"
@@ -263,7 +350,12 @@ function ConsultaForm({ hcnuming, modo, consId }) {
                                         </Row>
                                         <div className="text-right mt-3">
                                             <Button variant="primary" onClick={() => {
-                                                leerLaboratorio(hcnuming, '2022-09-16', consulta, setConsulta);
+                                                if (hcnuming)
+                                                    leerLaboratorio(hcnuming, consulta.consConsultaF, consulta, setConsulta);
+                                                else {
+                                                    leerLaboratorio(consulta.hcnumIng, consulta.consConsultaF, consulta, setConsulta);
+                                                    validar();
+                                                }
                                             }}>Laboratorio</Button>
                                         </div>
                                     </Col>
@@ -422,7 +514,8 @@ function ConsultaForm({ hcnuming, modo, consId }) {
                         onClick={async () => {
                             if (validar(consulta)) {
                                 const consId = await guardarConsulta(modo, consulta);
-                                navigate('/consultas/details/' + consId)
+                                if (consId)
+                                    navigate('/consultas/details/' + consId)
                             }
 
                         }}
@@ -436,15 +529,24 @@ function ConsultaForm({ hcnuming, modo, consId }) {
 }
 
 async function guardarConsulta(modo, consulta) {
+
+    consulta.consInr = parseInt(consulta.consInr * 100);
+    if (!consulta.consInr) {
+        alert('Inr no válido')
+    }
     try {
-        if (modo == "create") {
+        if (modo === "create") {
             delete consulta.consId;
             const nuevaConsulta = await PostData('consultas/create', consulta);
             if (nuevaConsulta) {
                 return nuevaConsulta.consId;
             }
+            else {
+                return false
+            }
+
         }
-        if (modo == "edit") {
+        if (modo === "edit") {
             console.log(consulta);
             const res = await PutData('consultas/' + consulta.consId, consulta);
             if (res) {
@@ -458,32 +560,35 @@ async function guardarConsulta(modo, consulta) {
     }
 }
 
-async function inicializarConsulta(modo, hcnuming, setConsulta, setlistaDosis, consId) {
+async function inicializarConsulta(modo, hcnuming, setConsulta, setlistaDosis, consId,
+    setCargando) {
     console.log(modo)
     var consulta;
-    if (modo == "create") {
+    if (modo === "create") {
+        setCargando(true);
         consulta = await ultimaConsulta(hcnuming);
+        setCargando(false);
         const today = new Date(Date.now());
         const hasta = new Date(Date.now());
         hasta.setDate(today.getDate() + 28);
         consulta.consConsultaF = today.toISOString().substring(0, 10);
         consulta.consHastaF = hasta.toISOString().substring(0, 10);
         consulta.ConsEstF = hasta.toISOString().substring(0, 10);
+        consulta.consInr = consulta.consInr / 100;
         console.log(hasta);
         leerListaDosis(filtro(consulta.consOralDroga), setlistaDosis);
     }
     console.log(modo);
-    if (modo == 'detail') {
+    if (modo === 'detail' || modo === 'edit') {
+        setCargando(true);
         consulta = await FetchData("consultas/" + consId);
+        setCargando(false);
         consulta.consConsultaF = (consulta.consConsultaF ? consulta.consConsultaF.substring(0, 10) : null);
         consulta.consHastaF = (consulta.consHastaF ? consulta.consHastaF.substring(0, 10) : null);
         consulta.ConsEstF = (consulta.ConsEstF ? consulta.ConsEstF.substring(0, 10) : null);
+        consulta.consInr = consulta.consInr / 100;
     }
-    if (modo == 'edit') {
-        consulta = await FetchData("consultas/" + consId);
-        consulta.consConsultaF = (consulta.consConsultaF ? consulta.consConsultaF.substring(0, 10) : null);
-        consulta.consHastaF = (consulta.consHastaF ? consulta.consHastaF.substring(0, 10) : null);
-        consulta.ConsEstF = (consulta.ConsEstF ? consulta.ConsEstF.substring(0, 10) : null);
+    if (modo === 'edit') {
         leerListaDosis(filtro(consulta.consOralDroga), setlistaDosis);
         console.log(consulta);
     }
@@ -504,20 +609,21 @@ async function ultimaConsulta(hcNuming) {
 
 
 async function leerLaboratorio(hcnuming, fecha, consulta, setConsulta) {
-    const data = await FetchData('Laboratorio/labPorHcnumIng/' + hcnuming + '/' + fecha);
-    console.log(data);
-    consulta.consPorc = data.porc;
-    consulta.consKptt = data.kptt;
-    consulta.consInr = data.inr;
-    console.log(consulta);
-    consulta.consPorc = 30;
-    setConsulta({
-        ...consulta,
-        ['consPorc']: data.porc,
-        ['consKptt']: data.kptt,
-        ['consInr']: data.inr
+    try {
+        const data = await FetchData('Laboratorio/labPorHcnumIng/' + hcnuming + '/' + fecha, true);
+        console.log(data);
+        //consulta.consPorc = 30;
+        setConsulta({
+            ...consulta,
+            ['consPorc']: data.porc,
+            ['consKptt']: data.kptt,
+            ['consInr']: data.inr
+        }
+        );
     }
-    );
+    catch (e) {
+        alert('No hay datos de lab para el paciente el dia ' + fecha)
+    }
 
 
 }

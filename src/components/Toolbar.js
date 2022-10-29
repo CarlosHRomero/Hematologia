@@ -10,6 +10,7 @@ import Col from "react-bootstrap/Col";
 import { Link } from 'react-router-dom';
 import { authManager } from '../authetication/authenticationManager';
 import { useNavigate } from 'react-router-dom';
+import {Usuario} from '../context/Usuario';
 const Toolbar = ({modo, linkedit, linkdetail, linkpaciente}) => {
     const navigate = useNavigate();
     console.log(modo)
@@ -20,8 +21,9 @@ const Toolbar = ({modo, linkedit, linkdetail, linkpaciente}) => {
                 return (
                     <div className="mt-2">
                         <Row className="cabecera justify-content-md-end">
+                            <Col>{Usuario.getName()}</Col>
                             <Col md={1}>
-                                <Link to={'/pacientes/'}>
+                                <Link to={'/'}>
                                     <div className="d-grid gap-2">
                                         <Button variant="outline-light" size="sm">
                                             <GoHome />
@@ -34,7 +36,7 @@ const Toolbar = ({modo, linkedit, linkdetail, linkpaciente}) => {
                                     <Button variant="outline-light" size="sm"
                                         onClick={() => {
                                             authManager.logout()
-                                            alert('');
+                                            //alert('');
                                             navigate('/login/')
                                         }
                                         }

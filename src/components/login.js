@@ -3,7 +3,7 @@ import '../styles/login.css'
 import { Navigate } from 'react-router-dom';
 import Alert from 'react-bootstrap/Alert';
 import { authManager } from '../authetication/authenticationManager';
-
+import {Usuario} from '../context/Usuario'
 const Login = () => {
     //const navigate = useNavigate(
     const [userName, setUserName] = useState('');
@@ -11,14 +11,16 @@ const Login = () => {
     const [toHome, setToHome] = React.useState(false);
     const [error, setError] = React.useState(false);
     if (toHome === true) {
-        return <Navigate to="/pacientes" />;
+        return <Navigate to="/" />;
      }
     const handleSubmit = async (event) => {
         event.preventDefault();
         //console.log('userName: ' + userName);
         const token = await authManager.login(userName, password);
-        if(token)
+        if(token){
+            Usuario.setName(userName);
             setToHome(true);
+        }
         else
             setError(true);
 

@@ -1,6 +1,6 @@
 import { authManager } from '../authetication/authenticationManager';
 
-async function FetchData(url) {
+async function FetchData(url, throw_error) {
   const token = await authManager.getAccessToken();
   const SERVER_URL = process.env.REACT_APP_SERVER_URL;
   //console.log(url);
@@ -15,13 +15,20 @@ async function FetchData(url) {
   }
 try{
   const response = await fetch(SERVER_URL+url, _headers);
- // console.log('response',response);
+  if(!response.ok){
+    console.log(response);
+    throw Error('En FetchData: ' +response.status + ' '+response.statusText);
+  }
   const data = await response.json();
   //console.log(data);
   return data;
 }
 catch(e){
-  window.location.replace('/error')
+  //window.location.replace('/error')
+  if(throw_error)
+    throw Error(e.message)
+  else
+    alert(e.message)
 }
   
 }
