@@ -12,8 +12,9 @@ const ListadoConsultas = ({ hcNuming }) => {
     }, []
     );
     return <div className="text-left mt-2">
+        <h4 className="m-2">Consultas </h4>
         <div className="text-left">
-            <table className="table  table-striped table-sm table-bordered" aria-labelledby="tabelLabel">
+            <table className="table table-secondary  table-striped table-sm table-bordered" aria-labelledby="tabelLabel">
                 <colgroup>
                     <col style={{ width: "8%" }} />
                     <col style={{ width: "7%" }} />
@@ -37,17 +38,17 @@ const ListadoConsultas = ({ hcNuming }) => {
                 <tbody>
                     {consultas.map((consulta) => (
                         <tr key={consulta.consId}>
-                            <td>{(new Date(consulta.consConsultaF)).toLocaleDateString()}</td>
+                            <td className="text-center">{(new Date(consulta.consConsultaF)).toLocaleDateString()}</td>
                             <td className="text-center">{consulta.consPorc}</td>
-                            <td></td>
+                            <td className="text-center">{consulta.consInr}</td>
                             <td>
                             <Link to={'/consultas/details/'+consulta.consId}>
-                                {consulta.consTratamiento}
+                                {consulta.consTratamiento.substring(0,100)}
                                 </Link>
                             </td>
-                            <td>{consulta.consComplic}</td>
-                            <td>{consulta.consTratHeparina}</td>
-                            <td>{consulta.consTratAntiag}</td>
+                            <td className="text-center">{consulta.consComplic}</td>
+                            <td className="text-center">{consulta.consTratHeparina}</td>
+                            <td className="text-center">{consulta.consTratAntiag}</td>
                         </tr>
                     ))}
 

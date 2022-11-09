@@ -7,15 +7,23 @@ import {ConsultaForm} from './ConsultaForm'
 import { Row, Col } from 'react-bootstrap';
 import {Arbol} from "./Arbol";
 import {Toolbar} from "./Toolbar";
-
+import {Error} from './Error';
 function ConsultaDetail(){
     const params = useParams();
     const [paciente, setPaciente] = useState();
     const [cargando, setCargando] = useState(false);
+    const [error, setError] = useState(null);
     useEffect(() => {
-        leerPaciente(params.consId, setPaciente, setCargando);
+        leerPaciente(params.consId, setPaciente, setCargando, setError);
     }, []
     );
+    if(error){
+        return(
+          <div>
+            <Error error={error} />
+          </div>
+        )
+      }
     if (paciente) {
         return (
             <Row>
@@ -38,15 +46,22 @@ function ConsultaDetail(){
 }
 
 
-async function leerPaciente(consId, setPaciente, setCargando) {
+async function leerPaciente(consId, setPaciente, setCargando, setError) {
     console.log(consId);
-    const datac = await FetchData("consultas/" + consId);
+    try{
+    const datac = await FetchData("consultas/" + consId, true);
+
     console.log(datac);
     console.log(datac.hcnumIng);
-    const datap = await FetchData("pacientes/PacientePorhcNumIng/" + datac.hcnumIng);
-    
+    const datap = await FetchData("pacientes/PacientePorhcNumIng/" + datac.hcnumIng, true);
     setPaciente(datap);
     setCargando(false);
+    }
+    catch(e){
+        setError(e);
+    }
+    
+
 }
 
 

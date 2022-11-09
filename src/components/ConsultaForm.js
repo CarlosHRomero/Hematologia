@@ -14,11 +14,15 @@ import { RotatingLines } from 'react-loader-spinner'
 function ConsultaForm({ hcnuming, modo, consId }) {
     //console.log(hcnuming)
     const navigate = useNavigate();
+    const [error, setError] = useState(false);
     const [cargando, setCargando] = useState(false);
     const [listaDroga, setlistaDroga] = useState();
     const [listaModalidadMed, setlistaModalidadMed] = useState();
     const [listaPedidos, setlistaPedidos] = useState();
     const [listaDosis, setlistaDosis] = useState();
+    const [colorInr, setColorInr] = useState('black');
+    const [colorPorc, setColorPorc] = useState('black');
+    const [colorKptt, setColorKptt] = useState('black');
     const [dosis, setDosis] = useState({
         dosisLunes: 1,
         dosisMiercoles: 1,
@@ -53,7 +57,7 @@ function ConsultaForm({ hcnuming, modo, consId }) {
         leerListaDroga(setlistaDroga);
         leerModalidadMed(setlistaModalidadMed);
         leerPedidos(setlistaPedidos);
-        inicializarConsulta(modo, hcnuming, setConsulta, setlistaDosis, consId, setCargando);
+        inicializarConsulta(modo, hcnuming, setConsulta, setlistaDosis, consId, setCargando, setError);
     }, [consId]
     );
     const validaModMed = () => {
@@ -91,7 +95,7 @@ function ConsultaForm({ hcnuming, modo, consId }) {
     }
 
     const validaKptt = () => {
-        if ( parseInt(consulta.consKppt) > 2000) {
+        if (parseInt(consulta.consKppt) > 2000) {
             seterrors({ ...errors, 'consKppt': true });
             return false;
         }
@@ -147,6 +151,10 @@ function ConsultaForm({ hcnuming, modo, consId }) {
         /*        
                 */
 
+    }
+    if (error) {
+        if (error.cause = '401')
+            navigate('/login');
     }
     if (cargando) {
         return (
@@ -212,6 +220,12 @@ function ConsultaForm({ hcnuming, modo, consId }) {
                                                         setConsulta({ ...consulta, ['consPorc']: e.target.value ? e.target.value * 1 : null })
                                                     }}
                                                     onBlur={validaPorc}
+                                                    onKeyPress={e => { setColorPorc('black') }}
+                                                    style={{
+                                                        color: colorPorc == 'red' ? 'red' : '',
+                                                        //color: isActive ? 'white' : '',
+                                                    }}
+
                                                 />
                                             </InputGroup>
                                             {errors.consPorc ?
@@ -230,6 +244,11 @@ function ConsultaForm({ hcnuming, modo, consId }) {
                                                         setConsulta({ ...consulta, ['consInr']: e.target.value ? e.target.value * 1 : null })
                                                     }}
                                                     onBlur={validaInr}
+                                                    onKeyPress={e => { setColorInr('black') }}
+                                                    style={{
+                                                        color: colorInr == 'red' ? 'red' : '',
+                                                        //color: isActive ? 'white' : '',
+                                                    }}
                                                 />
                                             </InputGroup>
                                             {errors.consInr ?
@@ -249,6 +268,11 @@ function ConsultaForm({ hcnuming, modo, consId }) {
                                                         setConsulta({ ...consulta, ['consKptt']: e.target.value ? e.target.value * 1 : null })
                                                     }}
                                                     onBlur={validaKptt}
+                                                    onKeyPress={e => { setColorKptt('black') }}
+                                                    style={{
+                                                        color: colorKptt == 'red' ? 'red' : '',
+                                                        //color: isActive ? 'white' : '',
+                                                    }}
                                                 />
                                             </InputGroup>
                                             {errors.consKppt ?
@@ -349,13 +373,32 @@ function ConsultaForm({ hcnuming, modo, consId }) {
                                             </Col>
                                         </Row>
                                         <div className="text-right mt-3">
-                                            <Button variant="primary" onClick={() => {
-                                                if (hcnuming)
-                                                    leerLaboratorio(hcnuming, consulta.consConsultaF, consulta, setConsulta);
-                                                else {
-                                                    leerLaboratorio(consulta.hcnumIng, consulta.consConsultaF, consulta, setConsulta);
-                                                    validar();
+                                            <Button variant="primary" onClick={async () => {
+                                                let data;
+                                                if (hcnuming) {
+                                                    data = await leerLaboratorio(hcnuming, consulta.consConsultaF);
                                                 }
+                                                else {
+                                                    data = await leerLaboratorio(consulta.hcnumIng, consulta.consConsultaF);
+                                                    //validar();
+                                                }
+                                                if (data) {
+                                                    setConsulta({
+                                                        ...consulta,
+                                                        ['consPorc']: data.porc,
+                                                        ['consKptt']: data.kptt,
+                                                        ['consInr']: data.inr
+                                                    }
+                                                    );
+                                                }
+                                                if (data.inr)
+                                                    setColorInr('red');
+                                                if (data.porc)
+                                                    setColorPorc('red');
+                                                if (data.kptt)
+                                                    setColorKptt('red');
+
+
                                             }}>Laboratorio</Button>
                                         </div>
                                     </Col>
@@ -561,36 +604,41 @@ async function guardarConsulta(modo, consulta) {
 }
 
 async function inicializarConsulta(modo, hcnuming, setConsulta, setlistaDosis, consId,
-    setCargando) {
+    setCargando, setError) {
     console.log(modo)
     var consulta;
-    if (modo === "create") {
-        setCargando(true);
-        consulta = await ultimaConsulta(hcnuming);
-        setCargando(false);
-        const today = new Date(Date.now());
-        const hasta = new Date(Date.now());
-        hasta.setDate(today.getDate() + 28);
-        consulta.consConsultaF = today.toISOString().substring(0, 10);
-        consulta.consHastaF = hasta.toISOString().substring(0, 10);
-        consulta.ConsEstF = hasta.toISOString().substring(0, 10);
-        consulta.consInr = consulta.consInr / 100;
-        console.log(hasta);
-        leerListaDosis(filtro(consulta.consOralDroga), setlistaDosis);
+    try {
+        if (modo === "create") {
+            setCargando(true);
+            consulta = await ultimaConsulta(hcnuming);
+            setCargando(false);
+            const today = new Date(Date.now());
+            const hasta = new Date(Date.now());
+            hasta.setDate(today.getDate() + 28);
+            consulta.consConsultaF = today.toISOString().substring(0, 10);
+            consulta.consHastaF = hasta.toISOString().substring(0, 10);
+            consulta.ConsEstF = hasta.toISOString().substring(0, 10);
+            consulta.consInr = consulta.consInr / 100;
+            console.log(hasta);
+            leerListaDosis(filtro(consulta.consOralDroga), setlistaDosis);
+        }
+        console.log(modo);
+        if (modo === 'detail' || modo === 'edit') {
+            setCargando(true);
+            consulta = await FetchData("consultas/" + consId, true);
+            setCargando(false);
+            consulta.consConsultaF = (consulta.consConsultaF ? consulta.consConsultaF.substring(0, 10) : null);
+            consulta.consHastaF = (consulta.consHastaF ? consulta.consHastaF.substring(0, 10) : null);
+            consulta.ConsEstF = (consulta.ConsEstF ? consulta.ConsEstF.substring(0, 10) : null);
+            consulta.consInr = consulta.consInr / 100;
+        }
+        if (modo === 'edit') {
+            leerListaDosis(filtro(consulta.consOralDroga), setlistaDosis);
+            console.log(consulta);
+        }
     }
-    console.log(modo);
-    if (modo === 'detail' || modo === 'edit') {
-        setCargando(true);
-        consulta = await FetchData("consultas/" + consId);
-        setCargando(false);
-        consulta.consConsultaF = (consulta.consConsultaF ? consulta.consConsultaF.substring(0, 10) : null);
-        consulta.consHastaF = (consulta.consHastaF ? consulta.consHastaF.substring(0, 10) : null);
-        consulta.ConsEstF = (consulta.ConsEstF ? consulta.ConsEstF.substring(0, 10) : null);
-        consulta.consInr = consulta.consInr / 100;
-    }
-    if (modo === 'edit') {
-        leerListaDosis(filtro(consulta.consOralDroga), setlistaDosis);
-        console.log(consulta);
+    catch (e) {
+        setError(e);
     }
 
     setConsulta(consulta);
@@ -599,30 +647,29 @@ async function inicializarConsulta(modo, hcnuming, setConsulta, setlistaDosis, c
 
 async function ultimaConsulta(hcNuming) {
     //console.log(hcNuming);
-    const data = await FetchData("consultas/ultimaConsulta/" + hcNuming);
+    try {
+        const data = await FetchData("consultas/ultimaConsulta/" + hcNuming);
 
-    //console.log(data);
-    return (data);
+        //console.log(data);
+        return (data);
+    }
+    catch (e) {
+        throw e;
+    }
 
     //setCargando(false);
 }
 
 
-async function leerLaboratorio(hcnuming, fecha, consulta, setConsulta) {
+async function leerLaboratorio(hcnuming, fecha, consulta, setConsulta, setColorInr) {
     try {
         const data = await FetchData('Laboratorio/labPorHcnumIng/' + hcnuming + '/' + fecha, true);
-        console.log(data);
         //consulta.consPorc = 30;
-        setConsulta({
-            ...consulta,
-            ['consPorc']: data.porc,
-            ['consKptt']: data.kptt,
-            ['consInr']: data.inr
-        }
-        );
+        return data
     }
     catch (e) {
         alert('No hay datos de lab para el paciente el dia ' + fecha)
+        return false;
     }
 
 

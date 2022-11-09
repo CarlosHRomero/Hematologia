@@ -20,7 +20,7 @@ function TratamientoForm({ hcnuming, modo, tratId }) {
     const [listaTipoHeparina, setlistaTipoHeparina] = useState(null);
     const [listaHoras, setlistaHoras] = useState(null);
     const [listaHBPM, setlistaHBPM] = useState(null);
- 
+
     useEffect(() => {
         inicializarTratamiento(modo, hcnuming, setTratamiento, tratId);
         leerListaTipoTratamiento(setlistaTipoTratamiento)
@@ -250,12 +250,49 @@ function TratamientoForm({ hcnuming, modo, tratId }) {
                             </div>
                         </div>
                     </Tabs >
+                    <div className='text-left m-3'>
+
+                        <Button
+                            onClick={async () => {
+                                if (validar(tratamiento)) {
+                                    const tratId = await guardarTratamiento(modo, tratamiento);
+                                    navigate('/tratamiento/details/' + tratId)
+                                }
+
+                            }}
+                        >Guardar</Button>
+                    </div>
                 </Form >
             </div >
         );
     }
 }
+function validar(complicaciones) {
+    return true;
+}
+async function guardarTratamiento(modo, tratamiento, opciones) {
+    try {
+        if (modo === "create") {
+            delete tratamiento.tratId;
+            const nuevotratamiento = await PostData('tratamiento/', tratamiento);
+            alert(nuevotratamiento);
+            if (nuevotratamiento) {
+                return nuevotratamiento.tratId;
+            }
+        }
+        if (modo === "edit") {
+            console.log(tratamiento);
+            const res = await PutData('tratamiento/' + tratamiento.tratId, tratamiento);
+            if (res) {
+                return tratamiento.tratId;
+            }
+        }
 
+    }
+    catch (e) {
+        alert(e);
+    }
+}
 
 async function inicializarTratamiento(modo, hcnuming, setTratamiento, tratId) {
 
@@ -334,7 +371,7 @@ async function leerListaHoras(setlistaHoras) {
                 <option key={i} value={item.datoDato}>{item.datoDescR}</option>
             )
         }, this);
-        setlistaHoras(lista);
+    setlistaHoras(lista);
 }
 async function leerlistaHBPM(setlistaHBPM) {
     const data = await FetchData('ListaDesplegable/listaHBPM');
@@ -345,7 +382,7 @@ async function leerlistaHBPM(setlistaHBPM) {
                 <option key={i} value={item.datoDato}>{item.datoDescR}</option>
             )
         }, this);
-        setlistaHBPM(lista);
+    setlistaHBPM(lista);
 }
 
 

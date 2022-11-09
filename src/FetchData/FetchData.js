@@ -17,7 +17,7 @@ try{
   const response = await fetch(SERVER_URL+url, _headers);
   if(!response.ok){
     console.log(response);
-    throw Error('En FetchData: ' +response.status + ' '+response.statusText);
+    throw Error('En FetchData: ' +response.status + ' '+response.statusText,  { cause: response.status });
   }
   const data = await response.json();
   //console.log(data);
@@ -25,8 +25,10 @@ try{
 }
 catch(e){
   //window.location.replace('/error')
-  if(throw_error)
-    throw Error(e.message)
+  if(throw_error){
+    console.log(e.cause);
+    throw e;
+  }
   else
     alert(e.message)
 }

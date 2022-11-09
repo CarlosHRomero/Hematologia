@@ -477,20 +477,21 @@ const codigos={
     'Infarto': '02-08',
     'Tiroidea':'02-09',
     'Hormonal':'02-10',
-    'Idiopatico':'02-11',
-    'Venosa':'02-11',
-    'Reposo':'02-11',
-    'ACV':'02-11',
-    'Familiar':'02-11',
-    'Coagul':'02-11',
-    'Plaquetomia':'02-11',
-    'Acido':'02-11',
-    'Alcoholismo':'02-11',
-    'Renal':'02-11',
-    'TVP':'02-11',
-    'CardIsquem':'02-11',
-    'Obesidad':'02-11',
-    'Hemorr':'02-11',
+    'Cancer':'02-11',
+    'Idiopatico':'02-12',
+    'Venosa':'02-28',
+    'Reposo':'02-13',
+    'ACV':'02-15',
+    'Familiar':'02-18',
+    'Coagul':'02-19',
+    'Plaquetomia':'02-20',
+    'Acido':'02-21',
+    'Alcoholismo':'02-22',
+    'Renal':'02-23',
+    'TVP':'02-25',
+    'CardIsquem':'02-26',
+    'Obesidad':'02-27',
+    'Hemorr':'02-30',
     'Diabetes':'02-04-01'
 }
     
@@ -607,7 +608,7 @@ async function inicializarFacRiesgo(modo, hcnuming, setFacRiesgo, facId,
         const today = new Date(Date.now());
         facRiesgo = {
             "diagFecha": today.toISOString().substring(0, 10),
-            "diagCodigo": "01-01-",
+            "diagCodigo": "02-01",
             "hcnumIng": hcnuming
         }
     }

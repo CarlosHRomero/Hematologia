@@ -44,7 +44,7 @@ const DatosPaciente = ({paciente}) => {
                 <Form.Group className="mb-1">
                     <Form.Label>Obra Social</Form.Label>
                     <div className="form-control" >
-                        {paciente.obraSocial}
+                        {paciente.obraSocial.substring(0,31)}
                      </div>
                 </Form.Group>
             </Col>

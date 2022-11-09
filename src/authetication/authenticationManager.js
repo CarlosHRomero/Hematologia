@@ -91,7 +91,7 @@ class AuthenticationManager {
             _this = this;
         }
         if (_this._user != null) {
-            let expired = _this._user.exp < (Date.now() - 1000 * 60 * 5) / 1000;
+            let expired = _this._user.exp < (Date.now() - 1000 * 60 * 24) / 1000;
             if (expired) {
                 this.refresh(_this.getRefreshToken())
                     .then(
@@ -139,6 +139,7 @@ class AuthenticationManager {
     }
 
     getAccessToken() {
+        console.log(tokenKey)
         let result = window.localStorage.getItem(tokenKey);
         if (!result) {
             return "";

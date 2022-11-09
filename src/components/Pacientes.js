@@ -15,7 +15,7 @@ const Pacientes = ({ listaPacientes }) => {
   if (listaPacientes.length > 0) {
     return (
       <div className="text-left">
-        <table className="table  table-striped table-sm table-bordered" aria-labelledby="tabelLabel">
+        <table className="table  table-secondary  table-striped table-sm table-bordered" aria-labelledby="tabelLabel">
         <colgroup>
             <col style={{width:"10%"}} />
             <col style={{width:"35%"}} />

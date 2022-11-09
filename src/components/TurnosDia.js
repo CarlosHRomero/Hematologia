@@ -50,7 +50,7 @@ const TurnosDia = () => {
                   turno.fecOrd.substring(11,16)}</td>
                 <td className="text-center">{turno.docPac}</td>
                 <td className="text-center">
-                  <Link to={'/turno/'+turno.hcnumIng}>
+                  <Link to={'/paciente/'+turno.hcnumIng}>
                     {(new Date(turno.consConsultaF)).toLocaleDateString()}
                   </Link>
                 </td>               

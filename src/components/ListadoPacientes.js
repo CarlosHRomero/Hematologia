@@ -14,7 +14,7 @@ import {Error} from './Error';
 const ListadoPacientes = () => {
   const [listaPacientes, setLista] = useState([]);
   const [cargando, setCargando] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
   const [filtro, setFiltro] = useState({
     apeNom: '',
     hcnum: null,
@@ -46,7 +46,7 @@ const ListadoPacientes = () => {
   if(error){
     return(
       <div>
-        <Error message={error.message} />
+        <Error error={error} />
       </div>
     )
   }
@@ -94,7 +94,7 @@ async function leerPacientes(setLista, setCargando, setError) {
     setLista(data);
   }
   catch(e){
-    console.log(e);
+    console.log(e.cause);
     setError(e);
   }
     

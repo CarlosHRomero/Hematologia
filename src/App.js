@@ -24,8 +24,10 @@ import { FacriesgoEdit} from "./components/FacriesgoEdit";
 
 import { TratamientoDetail} from "./components/TratamientoDetail";
 import { TratamientoEdit} from "./components/TratamientoEdit";
+import { TratamientoCreate} from "./components/TratamientoCreate";
 
 import { ComplicacionesDetail} from "./components/ComplicacionesDetail";
+import {ComplicacionesCreate} from "./components/ComplicacionesCreate";
 
 function App() {
   const [user, setUser] = useState(0);
@@ -55,8 +57,9 @@ function App() {
 
             <Route path="/tratamiento/details/:tratId" element={<TratamientoDetail/> } />
             <Route path="/tratamiento/edit/:tratId" element={<TratamientoEdit/> } />
-
+            <Route path="/tratamiento/create/:hcnumIng" element={<TratamientoCreate />} />
             <Route path="/complicaciones/details/:compId" element={<ComplicacionesDetail/> } />
+            <Route path="/complicaciones/create/:hcnumIng" element={<ComplicacionesCreate/> } />
           </Routes>
           </BrowserRouter>
         </Layout>

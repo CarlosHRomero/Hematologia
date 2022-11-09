@@ -11,6 +11,8 @@ import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 import { RotatingLines } from 'react-loader-spinner'
 import {Error} from './Error';
+import { ToolbarPac } from "./ToolbarPac";
+
 const PacientePage = () => {
 
     let params = useParams();
@@ -39,7 +41,7 @@ const PacientePage = () => {
       if(error){
         return(
           <div>
-            <Error message={error.message} />
+             <Error error={error} />
           </div>
         )
       }
@@ -51,6 +53,7 @@ const PacientePage = () => {
                 <Arbol hcNuming={params.hcnumIng}></Arbol>
             </Col>
             <Col md={10}>
+              <ToolbarPac></ToolbarPac>
             <div className="text-right mt-2">
                 <Link to={'/consultas/create/' + params.hcnumIng}>
                 <Button  variant="primary" >Copiar última consulta</Button>

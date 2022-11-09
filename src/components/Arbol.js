@@ -34,11 +34,11 @@ const Arbol = ({ hcNuming }) => {
                     defaultExpandIcon={<ChevronRight />}
                     sx={{ height: 480, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
                 >
-                    <TreeItem nodeId="1" label="Consultas"
+                    <TreeItem nodeId="Consultas" label="Consultas"
                         sx={{ color: 'navy', paddingTop: 0.6 }}
                     >
                         {consultas.map((consulta) => (
-                            <TreeItem key={consulta.consId.toString()} nodeId={consulta.consId.toString()}
+                            <TreeItem key={consulta.consId.toString()} nodeId={'C'+consulta.consId.toString()}
                                 label={'{' + (new Date(consulta.consConsultaF)).toLocaleDateString() + '}'}
                                 onClick={() => {
                                     //alert('/consultas/details/'+ consulta.consId)
@@ -52,7 +52,7 @@ const Arbol = ({ hcNuming }) => {
 
                     </TreeItem>
 
-                    <TreeItem nodeId={'2'} label="Diagnostico" sx={{ color: 'navy', paddingTop: 0.5 }}
+                    <TreeItem nodeId={'Diagnostico'} label="Diagnostico" sx={{ color: 'navy', paddingTop: 0.5 }}
                         onClick={() => {
                             console.log(diagnosticos)
                         }}
@@ -68,7 +68,7 @@ const Arbol = ({ hcNuming }) => {
                         {
                             diagnosticos.map((diagnostico) =>
                             (
-                                <TreeItem nodeId={diagnostico.diagId.toString()}
+                                <TreeItem nodeId={'D'+diagnostico.diagId.toString()}
                                     key={diagnostico.diagId.toString()}
                                     label={diagnostico.diagFecha ? diagnostico.diagFecha.toString() : null}
                                     sx={{ color: 'blue', paddingTop: 0.6 }}
@@ -79,10 +79,10 @@ const Arbol = ({ hcNuming }) => {
                             ))}
 
                     </TreeItem>
-                    <TreeItem nodeId="3" label="Factores de Riesgo"
+                    <TreeItem nodeId="FR" label="Factores de Riesgo"
                         sx={{ color: 'navy', paddingTop: 0.6 }}
                     >
-                        <TreeItem nodeId={'30'}
+                        <TreeItem nodeId={'FR30'}
                             label='Alta  factor de Riesgo'
                             sx={{ color: 'maroon', paddingTop: 0.6 }}
                             onClick={() => {
@@ -94,7 +94,7 @@ const Arbol = ({ hcNuming }) => {
                             facRiesgo.map((fac) =>
                             (
                                 <TreeItem nodeId={fac.facId.toString()}
-                                    key={fac.facId.toString()}
+                                    key={'FR'+fac.facId.toString()}
                                     label={fac.diagFecha ? fac.diagFecha.toString() : null}
                                     sx={{ color: 'blue', paddingTop: 0.6 }}
                                     onClick={() => {
@@ -103,15 +103,21 @@ const Arbol = ({ hcNuming }) => {
                                 />
                             ))}
                     </TreeItem>
-                    <TreeItem nodeId="4" label="Tratamiento"
+                    <TreeItem nodeId="Tratamiento" label="Tratamiento"
                         sx={{ color: 'navy', paddingTop: 0.6 }}>
-                        <TreeItem nodeId="41" label="Tratamiento Base"
+                        <TreeItem nodeId="TRB" label="Tratamiento Base"
                             sx={{ color: 'navy', paddingTop: 0.6 }}
                         >
+                            <TreeItem nodeId={'TRB-A'}
+                                label='Alta  tratamiento'
+                                sx={{ color: 'maroon', paddingTop: 0.6 }}
+                                onClick={() => {
+                                    navigate('/tratamiento/create/' + hcNuming)
+                                }} />
                             {
                                 tratamiento.map((trat) =>
                                 (
-                                    <TreeItem nodeId={trat.tratId.toString()}
+                                    <TreeItem nodeId={'TR'+trat.tratId.toString()}
                                         key={trat.tratId.toString()}
                                         label={trat.tratFd ? trat.tratFd.toString() : null}
                                         sx={{ color: 'blue', paddingTop: 0.6 }}
@@ -124,20 +130,26 @@ const Arbol = ({ hcNuming }) => {
 
                     </TreeItem>
 
-                    <TreeItem nodeId="4" label="Complicaciones o Eventos"
+                    <TreeItem nodeId="Complicaciones" label="Complicaciones o Eventos"
                         sx={{ color: 'navy', paddingTop: 0.6 }}>
-                            {
-                                complicaciones.map((comp) =>
-                                (
-                                    <TreeItem nodeId={comp.compId.toString()}
-                                        key={comp.compId.toString()}
-                                        label={comp.diagFecha ? comp.diagFecha.toString() : null}
-                                        sx={{ color: 'blue', paddingTop: 0.6 }}
-                                        onClick={() => {
-                                            navigate('/complicaciones/details/' + comp.compId)
-                                        }}
-                                    />
-                                ))}
+                        <TreeItem nodeId={'50'}
+                            label='Alta  complicaciones'
+                            sx={{ color: 'maroon', paddingTop: 0.6 }}
+                            onClick={() => {
+                                navigate('/complicaciones/create/' + hcNuming)
+                            }} />
+                        {
+                            complicaciones.map((comp) =>
+                            (
+                                <TreeItem nodeId={'COM'+comp.compId.toString()}
+                                    key={comp.compId.toString()}
+                                    label={comp.diagFecha ? comp.diagFecha.toString() : null}
+                                    sx={{ color: 'blue', paddingTop: 0.6 }}
+                                    onClick={() => {
+                                        navigate('/complicaciones/details/' + comp.compId)
+                                    }}
+                                />
+                            ))}
                     </TreeItem>
                 </TreeView>
             </div>
